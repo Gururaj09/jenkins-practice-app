@@ -14,18 +14,21 @@ pipeline {
             }
         }
         
-        stage('SonarQube Analysis') {
+        sstage('SonarQube Analysis') {
             steps {
-                // Matches the name you configured in Manage Jenkins > System
                 withSonarQubeEnv('SonarQube') {
-                    sh '''
-                        sonar-scanner \
-                        -Dsonar.projectKey=jenkins-practice \
-                        -Dsonar.projectName="Jenkins Practice App" \
-                        -Dsonar.sources=src/main/java \
-                        -Dsonar.tests=src/test/java \
-                        -Dsonar.java.binaries=target/classes
-                    '''
+                    // This 'tool' wrapper automatically pulls the scanner path into the shell
+                    script {
+                        def scannerHome = tool 'SonarQubeScanner'
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=jenkins-practice \
+                            -Dsonar.projectName="Jenkins Practice App" \
+                            -Dsonar.sources=src/main/java \
+                            -Dsonar.tests=src/test/java \
+                            -Dsonar.java.binaries=target/classes
+                        """
+                    }
                 }
             }
         }

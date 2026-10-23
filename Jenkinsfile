@@ -17,20 +17,19 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    // This 'tool' wrapper automatically pulls the scanner path into the shell
                     script {
                         def scannerHome = tool 'SonarQubeScanner'
                         sh """
                             ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=jenkins-practice \
                             -Dsonar.projectName="Jenkins Practice App" \
-                            -Dsonar.sources=src/main/java \
+                            -Dsonar.sources=. \
                             -Dsonar.java.binaries=target/classes
                         """
                     }
                 }
             }
-        }   
+        }
         stage('Build Docker Image') {
             steps {
                 script {

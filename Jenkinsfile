@@ -14,7 +14,7 @@ pipeline {
             }
         }
         
-        sstage('SonarQube Analysis') {
+        stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     // This 'tool' wrapper automatically pulls the scanner path into the shell
@@ -31,6 +31,7 @@ pipeline {
                     }
                 }
             }
+        }   
         stage('Build Docker Image') {
             steps {
                 script {

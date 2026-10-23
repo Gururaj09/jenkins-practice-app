@@ -25,7 +25,6 @@ pipeline {
                             -Dsonar.projectKey=jenkins-practice \
                             -Dsonar.projectName="Jenkins Practice App" \
                             -Dsonar.sources=src/main/java \
-                            -Dsonar.tests=src/test/java \
                             -Dsonar.java.binaries=target/classes
                         """
                     }

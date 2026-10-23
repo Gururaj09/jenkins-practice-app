@@ -13,7 +13,22 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-
+        
+        stage('SonarQube Analysis') {
+            steps {
+                // Matches the name you configured in Manage Jenkins > System
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                        sonar-scanner \
+                        -Dsonar.projectKey=jenkins-practice \
+                        -Dsonar.projectName="Jenkins Practice App" \
+                        -Dsonar.sources=src/main/java \
+                        -Dsonar.tests=src/test/java \
+                        -Dsonar.java.binaries=target/classes
+                    '''
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
